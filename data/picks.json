@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-10-01T04:16:04+00:00",
+ "updated_at": "2026-10-01T04:18:46+00:00",
  "rules": {
   "entry": "buy at the 09:30 open",
   "target": "+2% sell limit from the fill",
