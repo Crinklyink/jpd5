@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily +2% Picks</title>
+<style>
+:root { --bg:#f7f7f5; --fg:#1b1b1b; --muted:#666; --card:#fff; --line:#e3e3df;
+  --hit:#127a3a; --hitbg:#e2f4e8; --miss:#a32020; --missbg:#fbe5e5; --wait:#6b5d00; --waitbg:#fbf3cf; }
+@media (prefers-color-scheme: dark) {
+  :root { --bg:#141414; --fg:#ececec; --muted:#9a9a9a; --card:#1e1e1e; --line:#333;
+    --hit:#7ee0a0; --hitbg:#173323; --miss:#ff9c9c; --missbg:#3a1a1a; --wait:#f1dc72; --waitbg:#36300f; }
+}
+* { box-sizing:border-box; }
+body { margin:0; background:var(--bg); color:var(--fg);
+  font:15px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; }
+main { max-width:960px; margin:0 auto; padding:24px 16px 48px; }
+h1 { font-size:1.6rem; margin:0 0 4px; } h2 { font-size:1.15rem; margin:32px 0 8px; }
+h3 { margin:0 0 6px; font-size:1rem; color:var(--muted); font-weight:600; }
+.muted { color:var(--muted); font-size:.88rem; margin:4px 0; }
+.warn { color:var(--miss); font-size:.88rem; }
+.grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:16px; }
+.card { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:16px; }
+.ticker { font-size:2rem; font-weight:700; letter-spacing:.02em; }
+.card p { margin:6px 0; }
+.badge { display:inline-block; padding:1px 8px; border-radius:999px; font-size:.8rem; font-weight:700; }
+.hit { color:var(--hit); background:var(--hitbg); } .miss { color:var(--miss); background:var(--missbg); }
+.wait { color:var(--wait); background:var(--waitbg); } .none { color:var(--muted); }
+.scroll { overflow-x:auto; }
+table { border-collapse:collapse; width:100%; font-size:.9rem; }
+th,td { text-align:left; padding:6px 8px; border-bottom:1px solid var(--line); white-space:nowrap; }
+th { color:var(--muted); font-weight:600; }
+.num { text-align:right; font-variant-numeric:tabular-nums; }
+details summary { cursor:pointer; color:var(--muted); font-size:.88rem; margin-top:6px; }
+a { color:inherit; }
+footer { margin-top:40px; color:var(--muted); font-size:.82rem; }
+</style>
+</head>
+<body>
+<main>
+<h1>Daily +2% picks: 1 AM vs 9:16 AM</h1>
+<p class="muted">One stock per model per trading day. Rule: buy at the 09:30 open, place a
++2% sell limit from the fill, otherwise sell at the close. Updated 2026-10-01 00:16 ET.</p>
+
+<h2>Session none yet</h2>
+<div class="grid"><section class="card"><h3>1 AM pick</h3><p class="muted">Not published yet.</p></section><section class="card"><h3>9:16 AM pick</h3><p class="muted">Not published yet.</p></section></div>
+
+<h2>Scorecard</h2>
+<div class="card scroll">
+<table><thead><tr><th>Model</th><th class="num">Hits (live)</th><th class="num">Hit rate</th>
+<th class="num">Mean per day</th><th>Backtest</th></tr></thead>
+<tbody><tr><td>1 AM</td><td class='num'>&ndash;</td><td class='num'>&ndash;</td><td class='num'>&ndash;</td><td>not measured</td></tr><tr><td>9:16 AM</td><td class='num'>&ndash;</td><td class='num'>&ndash;</td><td class='num'>&ndash;</td><td>248/303 (81.8%), +0.27%/day</td></tr></tbody></table>
+<p class="muted">No session has both picks graded yet.</p>
+<p class="muted">A pick counts only if it was published before the 09:30 open. Mean per day is the
+return of buying the pick at the open and following the rule, after slippage.</p>
+</div>
+
+<h2>History</h2>
+<div class="card scroll">
+<table><thead><tr><th>Session</th><th>1 AM</th><th>Result</th><th>9:16 AM</th><th>Result</th></tr></thead>
+<tbody><tr><td colspan="5" class="muted">No picks yet.</td></tr></tbody></table>
+</div>
+
+<h2>The model</h2>
+<div class="card">
+<p>One LightGBM configuration (3 seeds averaged), retrained fresh every night at 01:00 ET on a sliding
+window of the last 252 sessions. It is trained to find stocks whose
+high &gt;= open +4%; the top score is the pick.</p>
+<p><b>1 AM</b>: daily features at the close + post-market to 20:00. <b>9:16 AM</b>: the same + pre-market trading to 09:00.</p>
+<p class="muted">Download everything: <a href="data/picks.json">picks.json</a> &middot;
+<a href="data/picks.csv">picks.csv</a></p>
+</div>
+
+<footer>Model outputs only, for research. Not financial advice; no orders are placed by this project.
+Past results do not predict future results.</footer>
+</main>
+</body>
+</html>
