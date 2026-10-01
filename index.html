@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
 <title>Daily +2% Picks</title>
 <style>
 :root { --bg:#f7f7f5; --fg:#1b1b1b; --muted:#666; --card:#fff; --line:#e3e3df;
@@ -34,45 +35,101 @@ th { color:var(--muted); font-weight:600; }
 details summary { cursor:pointer; color:var(--muted); font-size:.88rem; margin-top:6px; }
 a { color:inherit; }
 footer { margin-top:40px; color:var(--muted); font-size:.82rem; }
+
+[hidden] { display:none !important; }
+#gate { min-height:100vh; display:grid; place-items:center; padding:16px; }
+#gate form { width:100%; max-width:340px; }
+#gate h1 { font-size:1.2rem; }
+#pw { width:100%; font:inherit; padding:10px 12px; margin:10px 0 6px; border:1px solid var(--line);
+  border-radius:8px; background:var(--bg); color:var(--fg); }
+#go { width:100%; font:inherit; font-weight:600; padding:10px; border:0; border-radius:8px;
+  background:var(--fg); color:var(--bg); cursor:pointer; }
+#go:disabled { opacity:.6; cursor:wait; }
+.check { display:flex; gap:8px; align-items:center; font-size:.88rem; color:var(--muted); margin:4px 0 12px; }
+#err { color:var(--miss); font-size:.88rem; min-height:1.3em; margin:8px 0 0; }
+#lock { position:fixed; top:10px; right:12px; font:inherit; font-size:.82rem; padding:4px 10px;
+  border:1px solid var(--line); border-radius:999px; background:var(--card); color:var(--muted); cursor:pointer; }
 </style>
 </head>
 <body>
-<main>
-<h1>Daily +2% picks: 1 AM vs 9:16 AM</h1>
-<p class="muted">One stock per model per trading day. Rule: buy at the 09:30 open, place a
-+2% sell limit from the fill, otherwise sell at the close. Updated 2026-10-01 00:18 ET.</p>
-
-<h2>Session none yet</h2>
-<div class="grid"><section class="card"><h3>1 AM pick</h3><p class="muted">Not published yet.</p></section><section class="card"><h3>9:16 AM pick</h3><p class="muted">Not published yet.</p></section></div>
-
-<h2>Scorecard</h2>
-<div class="card scroll">
-<table><thead><tr><th>Model</th><th class="num">Hits (live)</th><th class="num">Hit rate</th>
-<th class="num">Mean per day</th><th>Backtest</th></tr></thead>
-<tbody><tr><td>1 AM</td><td class='num'>&ndash;</td><td class='num'>&ndash;</td><td class='num'>&ndash;</td><td>not measured</td></tr><tr><td>9:16 AM</td><td class='num'>&ndash;</td><td class='num'>&ndash;</td><td class='num'>&ndash;</td><td>248/303 (81.8%), +0.27%/day</td></tr></tbody></table>
-<p class="muted">No session has both picks graded yet.</p>
-<p class="muted">A pick counts only if it was published before the 09:30 open. Mean per day is the
-return of buying the pick at the open and following the rule, after slippage.</p>
+<div id="gate">
+<form class="card" id="form">
+<h1>Daily +2% Picks</h1>
+<p class="muted">This page is encrypted. Enter the password to view it.</p>
+<input type="text" name="username" value="jpd5" autocomplete="username" hidden>
+<input type="password" id="pw" autocomplete="current-password" placeholder="Password" required autofocus>
+<label class="check"><input type="checkbox" id="remember" checked> Remember on this device</label>
+<button type="submit" id="go">Unlock</button>
+<p id="err" role="alert"></p>
+<noscript><p class="muted">JavaScript is needed to decrypt this page.</p></noscript>
+</form>
 </div>
-
-<h2>History</h2>
-<div class="card scroll">
-<table><thead><tr><th>Session</th><th>1 AM</th><th>Result</th><th>9:16 AM</th><th>Result</th></tr></thead>
-<tbody><tr><td colspan="5" class="muted">No picks yet.</td></tr></tbody></table>
-</div>
-
-<h2>The model</h2>
-<div class="card">
-<p>One LightGBM configuration (3 seeds averaged), retrained fresh every night at 01:00 ET on a sliding
-window of the last 252 sessions. It is trained to find stocks whose
-high &gt;= open +4%; the top score is the pick.</p>
-<p><b>1 AM</b>: daily features at the close + post-market to 20:00. <b>9:16 AM</b>: the same + pre-market trading to 09:00.</p>
-<p class="muted">Download everything: <a href="data/picks.json">picks.json</a> &middot;
-<a href="data/picks.csv">picks.csv</a></p>
-</div>
-
-<footer>Model outputs only, for research. Not financial advice; no orders are placed by this project.
-Past results do not predict future results.</footer>
-</main>
+<button id="lock" type="button" hidden>Lock</button>
+<div id="app"></div>
+<script id="payload" type="application/json">{"v": 1, "iterations": 600000, "salt": "gVPXlueyqvFFVOTbdFLF1g==", "iv": "W/J1pmmy7dPPbQ2l", "data": "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"}</script>
+<script>
+(() => {
+  const P = JSON.parse(document.getElementById("payload").textContent);
+  const STORE = "jpd5-key";
+  const $ = (id) => document.getElementById(id);
+  const bytes = (s) => Uint8Array.from(atob(s), (c) => c.charCodeAt(0));
+  const b64 = (u) => btoa(String.fromCharCode(...u));
+  const saved = () => {
+    try { return JSON.parse(localStorage.getItem(STORE) || "null"); } catch (e) { return null; }
+  };
+  const keep = (v) => {
+    try { v ? localStorage.setItem(STORE, JSON.stringify(v)) : localStorage.removeItem(STORE); } catch (e) {}
+  };
+  async function derive(password) {
+    const base = await crypto.subtle.importKey(
+      "raw", new TextEncoder().encode(password), "PBKDF2", false, ["deriveBits"]);
+    const bits = await crypto.subtle.deriveBits(
+      { name: "PBKDF2", salt: bytes(P.salt), iterations: P.iterations, hash: "SHA-256" }, base, 256);
+    return new Uint8Array(bits);
+  }
+  async function decrypt(raw) {
+    const key = await crypto.subtle.importKey("raw", raw, "AES-GCM", false, ["decrypt"]);
+    const plain = await crypto.subtle.decrypt({ name: "AES-GCM", iv: bytes(P.iv) }, key, bytes(P.data));
+    return JSON.parse(new TextDecoder().decode(plain));
+  }
+  function show(d) {
+    $("app").innerHTML = d.body;
+    for (const [id, body, type] of [["dl-json", d.json, "application/json"], ["dl-csv", d.csv, "text/csv"]]) {
+      const a = $(id);
+      if (a) a.href = URL.createObjectURL(new Blob([body], { type }));
+    }
+    $("gate").hidden = true;
+    $("lock").hidden = false;
+  }
+  $("lock").onclick = () => { keep(null); location.reload(); };
+  $("form").onsubmit = async (e) => {
+    e.preventDefault();
+    $("err").textContent = "";
+    $("go").disabled = true;
+    $("go").textContent = "Unlocking...";
+    try {
+      const raw = await derive($("pw").value);
+      const d = await decrypt(raw);
+      keep($("remember").checked ? { salt: P.salt, key: b64(raw) } : null);
+      show(d);
+    } catch (err) {
+      $("err").textContent = "Wrong password.";
+      $("pw").select();
+    } finally {
+      $("go").disabled = false;
+      $("go").textContent = "Unlock";
+    }
+  };
+  if (!window.crypto || !crypto.subtle) {
+    $("err").textContent = "This browser cannot decrypt the page (it needs HTTPS).";
+    return;
+  }
+  const s = saved();
+  if (s && s.salt === P.salt) {
+    $("gate").hidden = true;
+    decrypt(bytes(s.key)).then(show, () => { keep(null); $("gate").hidden = false; });
+  }
+})();
+</script>
 </body>
 </html>
